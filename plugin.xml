@@ -33,9 +33,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="AdSupport.framework" weak="true" />
         <framework src="AppTrackingTransparency.framework" weak="true" />
         
-        <edit-config target="NSUserTrackingUsageDescription" file="*-Info.plist" mode="merge">
-            <string> My tracking usage description </string>
-        </edit-config>
     </platform>
 
     <platform name="android">
