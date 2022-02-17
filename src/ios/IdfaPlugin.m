@@ -7,10 +7,11 @@
 - (void)getInfo:(CDVInvokedUrlCommand *)command {    
         
        @try{ 
-                ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
-
-                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
+           [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+                NSLog(@"Status: %lu", (unsigned long)status);
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:status];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }];
         }@catch (NSException* exception) {
               CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
               [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
