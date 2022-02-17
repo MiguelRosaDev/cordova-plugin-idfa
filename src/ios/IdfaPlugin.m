@@ -9,7 +9,12 @@
         NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
         BOOL enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
         NSDictionary* resultData;
-
+        
+        ATTrackingManagerAuthorizationStatus status = [ATTrackingManager trackingAuthorizationStatus];
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:status];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        
         if (@available(iOS 14, *)) {
             NSNumber* trackingPermission = @(ATTrackingManager.trackingAuthorizationStatus);
             // workaround, as long as Apple deferred the roll-out of manadatory tracking permission popup
@@ -21,7 +26,8 @@
             resultData = @{
                 @"idfa": idfaString,
                 @"trackingLimited": [NSNumber numberWithBool:!enabled],
-                @"trackingPermission": trackingPermission
+                @"trackingPermission": trackingPermission,
+                @"Status": status
             };
         } else {
             resultData = @{
@@ -29,9 +35,6 @@
                 @"trackingLimited": [NSNumber numberWithBool:!enabled]
             };
         }
-
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultData];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
