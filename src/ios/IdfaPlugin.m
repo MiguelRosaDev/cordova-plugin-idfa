@@ -4,8 +4,7 @@
 
 @implementation IdfaPlugin
 
-- (void)getInfo:(CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{     
+- (void)getInfo:(CDVInvokedUrlCommand *)command {    
         
        @try{ 
                 ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
