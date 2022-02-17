@@ -11,9 +11,9 @@
         NSDictionary* resultData;
         
         @try{ 
-                ATTrackingManagerAuthorizationStatus status = [ATTrackingManager trackingAuthorizationStatus];
+                ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
             
-                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:status];
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }@catch (NSException* exception) {
               CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
