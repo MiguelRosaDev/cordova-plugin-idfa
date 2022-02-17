@@ -5,41 +5,17 @@
 @implementation IdfaPlugin
 
 - (void)getInfo:(CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{
-        NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-        BOOL enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
-        NSDictionary* resultData;        
+    [self.commandDelegate runInBackground:^{     
         
-           @try{ 
-                    ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
+       @try{ 
+                ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
 
-                    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
-                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-            }@catch (NSException* exception) {
-                  CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
-                  [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
-            }
-        
-        if (@available(iOS 14, *)) {
-            NSNumber* trackingPermission = @(ATTrackingManager.trackingAuthorizationStatus);
-            // workaround, as long as Apple deferred the roll-out of manadatory tracking permission popup
-            // we'll assume that if the idfa string is not nullish, then it's allowed by user
-            if (!enabled && idfaString != nil && ![@"00000000-0000-0000-0000-000000000000" isEqualToString:idfaString]) {
-                enabled = YES;
-            }
-
-            resultData = @{
-                @"idfa": idfaString,
-                @"trackingLimited": [NSNumber numberWithBool:!enabled],
-                @"trackingPermission": trackingPermission
-            };
-        } else {
-            resultData = @{
-                @"idfa": idfaString,
-                @"trackingLimited": [NSNumber numberWithBool:!enabled]
-            };
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }@catch (NSException* exception) {
+              CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
+              [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
         }
-    }];
 }
 
 - (void)requestPermission:(CDVInvokedUrlCommand *)command {
