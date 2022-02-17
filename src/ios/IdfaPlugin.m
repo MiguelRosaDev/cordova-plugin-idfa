@@ -8,18 +8,19 @@
     [self.commandDelegate runInBackground:^{
         NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
         BOOL enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
-        NSDictionary* resultData;
+        NSDictionary* resultData;        
         
-        @try{ 
-                ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
-            
-                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        }@catch (NSException* exception) {
-              CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
-              [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
-        }
-        
+        if (@available(iOS 14, *)) {
+           @try{ 
+                    ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
+
+                    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:AuthorizationStatus];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }@catch (NSException* exception) {
+                  CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
+                  [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
+            }
+        };
         
         if (@available(iOS 14, *)) {
             NSNumber* trackingPermission = @(ATTrackingManager.trackingAuthorizationStatus);
@@ -32,8 +33,7 @@
             resultData = @{
                 @"idfa": idfaString,
                 @"trackingLimited": [NSNumber numberWithBool:!enabled],
-                @"trackingPermission": trackingPermission,
-                @"Status": status
+                @"trackingPermission": trackingPermission
             };
         } else {
             resultData = @{
