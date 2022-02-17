@@ -10,7 +10,6 @@
         BOOL enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
         NSDictionary* resultData;        
         
-        if (@available(iOS 14, *)) {
            @try{ 
                     ATTrackingManagerAuthorizationStatus AuthorizationStatus = [ATTrackingManager trackingAuthorizationStatus];
 
@@ -20,7 +19,6 @@
                   CDVPluginResult* pluginResultErr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception reason]];  
                   [self.commandDelegate sendPluginResult:pluginResultErr callbackId:command.callbackId];
             }
-        };
         
         if (@available(iOS 14, *)) {
             NSNumber* trackingPermission = @(ATTrackingManager.trackingAuthorizationStatus);
