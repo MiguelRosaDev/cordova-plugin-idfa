@@ -6,6 +6,6 @@ exports.getInfo = function (resolve, reject) {
   exec(resolve, reject, PLUGIN_NAME, "getInfo", []);
 };
 
-requestPermission.getInfo = function (resolve, reject) {
+exports.requestPermission.getInfo = function (resolve, reject) {
   exec(resolve, reject, PLUGIN_NAME, "requestPermission", []);
 };
