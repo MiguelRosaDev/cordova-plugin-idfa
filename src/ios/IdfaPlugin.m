@@ -4,7 +4,7 @@
 
 @implementation IdfaPlugin
 
-- (void)getInfoAndrequestPermission:(CDVInvokedUrlCommand *)command {    
+- (void)getInfo:(CDVInvokedUrlCommand *)command {    
        NSLog(@"Call getInfo:");
        @try{ 
            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
