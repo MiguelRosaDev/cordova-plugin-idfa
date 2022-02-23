@@ -13,6 +13,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <js-module src="www/Idfa.js" name="Idfa">
         <merges target="cordova.plugins.idfa" />
     </js-module>
+    
+    <preference name="TRACKING_DESCRIPTION" default="My Tracking Desrcription"/>
 
     <engines>
         <engine name="cordova" version=">=7.1.0"/>
@@ -34,7 +36,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="AppTrackingTransparency.framework" weak="true" />
         
         <config-file target="*-Info.plist" parent="NSUserTrackingUsageDescription">
-            <string> My Tracking usage description </string>
+            <string>$TRACKING_DESCRIPTION$</string>
         </config-file>
         
     </platform>
