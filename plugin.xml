@@ -34,7 +34,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="AppTrackingTransparency.framework" weak="true" />
         
         <config-file target="*-Info.plist" parent="NSUserTrackingUsageDescription">
-            <string> My tracking usage description </string>
+            <string> Tracking usage </string>
         </config-file>
         
     </platform>
