@@ -36,7 +36,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="AppTrackingTransparency.framework" weak="true" />
         
         <config-file target="*-Info.plist" parent="NSUserTrackingUsageDescription">
-            <string>"Esta informação será utilizada para lhe apresentar anúncios personalizados."</string>
+            <string>$TRACKING_DESCRIPTION</string>
         </config-file>
         
     </platform>
