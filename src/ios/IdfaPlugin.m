@@ -22,11 +22,16 @@
 - (void)requestPermission:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         if (@available(iOS 14, *)) {
-            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-                CDVPluginResult* pluginResult =
-                    [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:status];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-            }];
+                    [[NSNotificationCenter defaultCenter]addObserver:self
+                      selector:@selector(
+                       [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+                         CDVPluginResult* pluginResult =
+                         [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:status];
+                       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                    }];
+                                      )
+                       name:UIApplicationDidBecomeActiveNotification
+                       object:nil];
         } else {
             CDVPluginResult* pluginResult = [CDVPluginResult
                                              resultWithStatus:CDVCommandStatus_ERROR
