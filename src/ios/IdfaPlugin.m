@@ -20,7 +20,6 @@
 }
 
 - (void)requestPermission:(CDVInvokedUrlCommand *)command {   
-    [self.commandDelegate runInBackground:^{
         if (@available(iOS 14, *)) {
                     [[NSNotificationCenter defaultCenter]addObserver:self
                       selector:@selector(
@@ -38,8 +37,6 @@
                                              messageAsString:@"requestPermission is supported only for iOS >= 14"];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
-        
- }];
 }
 
 @end
